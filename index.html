@@ -17,6 +17,24 @@
     <div id="root"></div>
     <!-- You can also require other files to run in this process -->
     <!-- <script src="./src/index.js"></script> -->
-    <script src="./dist/index.js"></script>
+    <!-- <script src="./dist/index.js"></script> -->
+    <script>
+      console.log(this, process.env.PORT)
+      const scripts = []
+      if (process.env.START_HOT) {
+        // Dynamically insert the bundled app script in the renderer process
+        const port = process.env.PORT || 1212
+        scripts.push(`http://localhost:${port}/dist/index.js`)
+      } else {
+        scripts.push('./dist/index.js')
+      }
+      if (scripts.length) {
+        document.write(
+          scripts
+            .map((script) => `<script defer src="${script}"><\/script>`)
+            .join(''),
+        )
+      }
+    </script>
   </body>
 </html>
