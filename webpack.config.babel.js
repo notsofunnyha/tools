@@ -8,11 +8,19 @@ const publicPath = `http://localhost:${port}/dist`
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: ['react-hot-loader/patch', './src/index.jsx'],
+  mode: 'development',
+  // https://webpack.docschina.org/configuration/target/
+  target: 'electron-renderer',
+  entry: [
+    'react-hot-loader/patch',
+    `webpack-dev-server/client?http://localhost:${port}/`,
+    'webpack/hot/only-dev-server',
+    require.resolve('./src/index.jsx'),
+  ],
   output: {
-    filename: 'index.js',
     // path: path.resolve(__dirname, 'dist'),
-    publicPath: publicPath + '/',
+    publicPath: `http://localhost:${port}/dist/`,
+    filename: 'index.dev.js',
   },
   module: {
     rules: [
@@ -22,7 +30,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            cacheDirectory: true,
+            // presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
       },
@@ -39,32 +48,9 @@ module.exports = {
     },
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin({
-      multiStep: true,
-    }),
-
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     *
-     * By default, use 'development' as NODE_ENV. This can be overriden with
-     * 'staging', for example, by changing the ENV variables in the npm scripts
-     */
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-    }),
-
-    new webpack.LoaderOptionsPlugin({
-      debug: true,
-    }),
+    // new webpack.NoEmitOnErrorsPlugin(),
   ],
   devServer: {
     port,
@@ -79,8 +65,8 @@ module.exports = {
           env: process.env,
           stdio: 'inherit',
         })
-          .on('close', (code) => process.exit(code))
-          .on('error', (spawnError) => console.error(spawnError))
+          .on('close', process.exit)
+          .on('error', console.error)
       }
     },
   },

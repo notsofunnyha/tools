@@ -16,6 +16,10 @@ const menus = [
     path: '/',
   },
   {
+    name: 'gprs13',
+    path: '/gprs13',
+  },
+  {
     name: 'About',
     children: [
       { name: 'About1', path: '/about1' },
@@ -75,10 +79,8 @@ const Root = () => (
     <Layout>
       <Sider />
       <Layout style={{ marginLeft: 256, height: '100vh' }}>
-        <Content style={{ margin: '24px 16px 0', overflow: 'auto' }}>
-          <div style={{ padding: 24 }}>
-            <Routes />
-          </div>
+        <Content style={{ padding: 10, overflow: 'auto' }}>
+          <Routes />
         </Content>
       </Layout>
     </Layout>

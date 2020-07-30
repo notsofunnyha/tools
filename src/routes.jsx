@@ -2,6 +2,8 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import Home from './views/home'
+import Gprs13 from './views/gprs13/gprs13'
+
 function About1() {
   return <h2>About Page 1</h2>
 }
@@ -22,6 +24,7 @@ function Routes() {
       <Route path="/about1" exact={true} component={About1} />
       <Route path="/about2" exact={true} component={About2} />
       <Route path="/about3" exact={true} component={About3} />
+      <Route path="/gprs13" exact={true} component={Gprs13} />
     </Switch>
   )
 }
