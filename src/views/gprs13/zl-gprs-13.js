@@ -88,7 +88,7 @@ function getCmd17Alarm(data) {
 
 // String -> Promise
 async function decode(origindata) {
-  const data = origindata.toLowerCase()
+  const data = origindata.replace(/\s/g, '').toLowerCase()
   const result = new PropValues()
   const cmdCode = data.substr(4, 2)
   if (!R.contains(cmdCode)(['17', '18', '28'])) {
@@ -214,7 +214,7 @@ async function decode(origindata) {
     resultState4.add('bit(2) 休眠报警', state4.substr(5, 1) === '1' ? '休眠' : '未休眠')
     states.add('状态4', resultState4)
 
-    result.add('状态信息a', states)
+    result.add('状态信息', states)
   }
   return result
 }

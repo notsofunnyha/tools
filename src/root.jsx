@@ -4,6 +4,7 @@ import { Layout, Menu } from 'antd'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons'
 import { hot } from 'react-hot-loader/root'
+import './global.scss'
 
 import Routes from './routes'
 
@@ -78,9 +79,11 @@ const Root = () => (
   <Router>
     <Layout>
       <Sider />
-      <Layout style={{ marginLeft: 256, height: '100vh' }}>
-        <Content style={{ padding: 10, overflow: 'auto' }}>
-          <Routes />
+      <Layout style={{ marginLeft: 256, height: '100vh', background: '#fff' }}>
+        <Content style={{ borderTop: '1px solid #ddd' }}>
+          <Content style={{ padding: 10, overflow: 'auto', height: '100%' }}>
+            <Routes />
+          </Content>
         </Content>
       </Layout>
     </Layout>

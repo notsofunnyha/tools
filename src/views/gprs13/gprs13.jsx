@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Collapse, Input, Row, Col, message } from 'antd'
 import { decode } from './zl-gprs-13'
+import css from './gprs13.scss'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -10,7 +11,7 @@ function Item(props) {
   const { prop, value, list } = props
   if (list)
     return (
-      <Collapse defaultActiveKey={[prop]}>
+      <Collapse defaultActiveKey={[prop]} className={css['content-container']}>
         <Panel header={prop} key={prop}>
           {list.map((m) => (
             <Item key={m.prop} prop={m.prop} value={m.value} list={m.list} />
