@@ -4,10 +4,9 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "build": "webpack --config webpack.config.babel.js",
     "dev": "cross-env START_HOT=1 port=7000 NODE_ENV=development webpack-dev-server --config webpack.config.babel.js",
     "electron": "cross-env START_HOT=1 NODE_ENV=development port=7000 electron .",
-    "start": "cross-env NODE_ENV=development electron ."
+    "build": "electron-rebuild -f -p -t prod,dev,optional -v 9.1.0 -m ./"
   },
   "repository": "https://github.com/lovelyorg/tools",
   "keywords": [
@@ -30,6 +29,7 @@
     "cross-spawn": "^7.0.3",
     "css-loader": "^3.6.0",
     "electron": "^9.1.0",
+    "electron-rebuild": "^1.11.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
@@ -51,6 +51,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "serialport": "^9.0.0",
     "whatwg-fetch": "^3.2.0"
   }
 }

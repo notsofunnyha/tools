@@ -21,6 +21,10 @@ const menus = [
     path: '/gprs13',
   },
   {
+    name: 'serial-port',
+    path: '/serial-port',
+  },
+  {
     name: 'About',
     children: [
       { name: 'About1', path: '/about1' },

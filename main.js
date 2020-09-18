@@ -2,6 +2,8 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
+app.allowRendererProcessReuse = false
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -9,7 +11,7 @@ function createWindow() {
     height: 700,
     webPreferences: {
       nodeIntegration: true,
-      // preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
   })
 

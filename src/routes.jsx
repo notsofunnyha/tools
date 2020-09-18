@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import Home from './views/home'
 import Gprs13 from './views/gprs13/gprs13'
+import SerialPort from './views/serial-port/index'
 
 function About1() {
   return <h2>About Page 1</h2>
@@ -25,6 +26,7 @@ function Routes() {
       <Route path="/about2" exact={true} component={About2} />
       <Route path="/about3" exact={true} component={About3} />
       <Route path="/gprs13" exact={true} component={Gprs13} />
+      <Route path="/serial-port" exact={true} component={SerialPort} />
     </Switch>
   )
 }
