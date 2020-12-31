@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "cross-env START_HOT=1 port=7000 NODE_ENV=development webpack-dev-server --config webpack.config.babel.js",
     "electron": "cross-env START_HOT=1 NODE_ENV=development port=7000 electron .",
-    "build": "electron-rebuild -f -p -t prod,dev,optional -v 9.1.0 -m ./"
+    "build": "electron-rebuild -f -p -t prod,dev,optional -v 9.1.0 -m ./",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "pack": "electron-packager ./ testapp --win --out ./outputs"
   },
   "repository": "https://github.com/lovelyorg/tools",
   "keywords": [
@@ -29,7 +32,10 @@
     "cross-spawn": "^7.0.3",
     "css-loader": "^3.6.0",
     "electron": "^9.1.0",
+    "electron-builder": "^22.9.1",
     "electron-rebuild": "^1.11.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-react": "^7.21.5",
     "node-sass": "^4.14.1",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
@@ -42,8 +48,7 @@
     "antd": "^4.4.2",
     "connected-react-router": "^6.8.0",
     "dayjs": "^1.8.30",
-    "lodash": "^4.17.19",
-    "moment": "^2.27.0",
+    "electron-packager": "^15.2.0",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -51,7 +56,6 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
-    "serialport": "^9.0.0",
-    "whatwg-fetch": "^3.2.0"
+    "serialport": "^9.0.4"
   }
 }

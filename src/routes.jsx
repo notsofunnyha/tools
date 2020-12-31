@@ -1,9 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Home from './views/home'
-import Gprs13 from './views/gprs13/gprs13'
-import SerialPort from './views/serial-port/index'
+import Home from './view/home'
+import Gprs13 from './view/gprs13/gprs13'
+import SerialPort from './view/serial-port/index'
 
 function About1() {
   return <h2>About Page 1</h2>

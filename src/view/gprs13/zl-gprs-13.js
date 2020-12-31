@@ -1,7 +1,7 @@
 /* eslint-disable no-bitwise */
 import * as R from 'ramda'
 import dayjs from 'dayjs'
-import geo from './inverse-geo-coding'
+import { position } from '../../util/mapJsApi/baidu'
 
 // Number -> String -> Number
 const toInt = R.curry((radix, s) => parseInt(s, radix))
@@ -67,19 +67,19 @@ function getCmd17Alarm(data) {
 
     const alarmValue = R.compose(toString(16), toInt(2), R.slice(1, 8))(cmd17Alarm)
     const alarmList = {
-      '1': 'GPS天线故障',
-      '4': '曾自动锁车标志',
-      '5': 'ACC/PLC上电',
+      1: 'GPS天线故障',
+      4: '曾自动锁车标志',
+      5: 'ACC/PLC上电',
       d: 'SIM卡拔卡标志',
       e: '开盖报警',
       f: 'SIM卡更换报警',
-      '10': '总线故障报警',
-      '11': '主电源断电报警',
-      '12': '主电源欠压报警',
-      '13': '备用电池断电报警',
-      '14': '备用电源欠压报警',
-      '16': 'CAN波特率变化',
-      '17': '串口波特率变化',
+      10: '总线故障报警',
+      11: '主电源断电报警',
+      12: '主电源欠压报警',
+      13: '备用电池断电报警',
+      14: '备用电源欠压报警',
+      16: 'CAN波特率变化',
+      17: '串口波特率变化',
     }
     resultAlarm.add('报警值', alarmList[alarmValue] || alarmValue)
   }
@@ -120,14 +120,7 @@ async function decode(origindata) {
   if (cmdCode === '17') gpsData = data.substr(36, 40)
   else if (cmdCode === '18') gpsData = data.substr(34, 40)
   if (gpsData) {
-    const year = R.compose(
-      R.concat('20'),
-      R.toString(),
-      toInt(2),
-      R.slice(2, 8),
-      toString(2),
-      skipnTake2ToInt16(0),
-    )(gpsData)
+    const year = R.compose(R.concat('20'), R.toString(), toInt(2), R.slice(2, 8), toString(2), skipnTake2ToInt16(0))(gpsData)
     const month = skipnTake2ToInt16(2, gpsData)
     const day = skipnTake2ToInt16(4, gpsData)
     const hour = skipnTake2ToInt16(6, gpsData)
@@ -136,10 +129,7 @@ async function decode(origindata) {
     const resultPosition = new PropValues()
     resultPosition.add(
       '终端位置时间',
-      dayjs(`${year}-${month}-${day} ${hour}:${minute}:${second}`)
-        .add(8, 'hour')
-        .locale('zh-cn')
-        .format(), // .format('YYYY-MM-DD HH:mm:ss'))
+      dayjs(`${year}-${month}-${day} ${hour}:${minute}:${second}`).add(8, 'hour').format('YYYY-MM-DD HH:mm:ss'),
     )
 
     const num1 = skipnTake2ToInt16(12, gpsData)
@@ -151,23 +141,11 @@ async function decode(origindata) {
     const num7 = skipnTake2ToInt16(24, gpsData)
     const num8 = skipnTake2ToInt16(26, gpsData)
 
-    const lng = (num5 + (((num7 * 100 + num8) * 1.0) / 10000.0 + num6) / 60.0)
-      .toFixed(7)
-      .replace(/[0]+$/, '')
-    const lat = (num1 + (((num3 * 100 + num4) * 1.0) / 10000.0 + num2) / 60.0)
-      .toFixed(7)
-      .replace(/[0]+$/, '')
+    const lng = (num5 + (((num7 * 100 + num8) * 1.0) / 10000.0 + num6) / 60.0).toFixed(7).replace(/[0]+$/, '')
+    const lat = (num1 + (((num3 * 100 + num4) * 1.0) / 10000.0 + num2) / 60.0).toFixed(7).replace(/[0]+$/, '')
     resultPosition.add('经度', lng)
     resultPosition.add('纬度', lat)
-    let position = ''
-    try {
-      console.log(geo, geo.getPositions)
-      position = await geo.getPositions(lng, lat)
-    } catch (e) {
-      // console.error(e);
-      position = '地理解析失败..'
-    }
-    resultPosition.add('详细地址', position)
+    resultPosition.add('详细地址', { type: 'watch', fn: () => position(lng, lat) })
     result.add('位置信息', resultPosition)
 
     const states = new PropValues()

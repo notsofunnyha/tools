@@ -1,3 +1,7 @@
 .content-container + .content-container {
   margin-top: 10px;
 }
+
+.line + .line {
+  padding-top: 4px;
+}

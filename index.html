@@ -26,7 +26,7 @@
         const port = process.env.PORT || 1212
         scripts.push(`http://localhost:${port}/dist/index.dev.js`)
       } else {
-        scripts.push('./dist/index.js')
+        scripts.push('./src/index.jsx')
       }
       if (scripts.length) {
         document.write(scripts.map((script) => `<script defer src="${script}"><\/script>`).join(''))
