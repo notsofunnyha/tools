@@ -26,7 +26,7 @@ const getState = R.compose(
 const padStart = R.curry((n, char, s) => s.padStart(n, char))
 
 //
-class PropValues extends Array {
+export class PropValues extends Array {
   add(prop, value) {
     if (value.constructor && value.constructor.name === 'PropValues') {
       this.push({ prop, list: value })
@@ -36,67 +36,16 @@ class PropValues extends Array {
   }
 }
 
-// String -> {*}
-function getCmd28Result(data) {
-  const cmd28content = data.substr(34, 36)
-  const cmd28Result = new PropValues()
-  cmd28Result.add('主电源电压', `${(skipnTakemToInt16(0, 4, cmd28content) / 10).toFixed(1)} V`)
-  cmd28Result.add('备用电池电压', `${(skipnTake2ToInt16(4, cmd28content) / 10).toFixed(1)} V`)
-  cmd28Result.add('终端内部温度', `${skipnTake2ToInt16(6, cmd28content) - 60} ℃`)
-  cmd28Result.add('主电休眠上报间隔', `${skipnTake2ToInt16(8, cmd28content)} h`)
-  cmd28Result.add('备电休眠上报间隔', `${skipnTake2ToInt16(10, cmd28content)} h`)
-  cmd28Result.add('ACC ON总累计时间', `${skipnTakemToInt16(12, 8, cmd28content)} min`)
-  cmd28Result.add('GPS终端总通电时间', `${skipnTakemToInt16(20, 8, cmd28content)} min`)
-  cmd28Result.add('开盖次数', skipnTake2ToInt16(28, cmd28content))
-  cmd28Result.add('拔GPS天线次数', skipnTake2ToInt16(30, cmd28content))
-  cmd28Result.add('拔SIM卡次数', skipnTake2ToInt16(32, cmd28content))
-  cmd28Result.add('GSM信号强度', skipnTake2ToInt16(34, cmd28content))
-  return cmd28Result
-}
+const getCmdCode = (data) => data.substr(4, 2)
 
-// String -> {*}
-function getCmd17Alarm(data) {
-  const cmd17Alarm = getState(34, data)
-  const resultAlarm = new PropValues()
-  if (cmd17Alarm === '10101010') {
-    // 10101010=>AA AA是特殊情况 无所谓发生,解除
-    resultAlarm.add('报警标志', '终端连接心跳包 (AA)')
-  } else {
-    // console.log(cmd17Alarm);
-    const alarmTag = cmd17Alarm.substr(0, 1) === '1' ? '报警发生' : '报警解除'
-    resultAlarm.add('报警标志', alarmTag)
-
-    const alarmValue = R.compose(toString(16), toInt(2), R.slice(1, 8))(cmd17Alarm)
-    const alarmList = {
-      1: 'GPS天线故障',
-      4: '曾自动锁车标志',
-      5: 'ACC/PLC上电',
-      d: 'SIM卡拔卡标志',
-      e: '开盖报警',
-      f: 'SIM卡更换报警',
-      10: '总线故障报警',
-      11: '主电源断电报警',
-      12: '主电源欠压报警',
-      13: '备用电池断电报警',
-      14: '备用电源欠压报警',
-      16: 'CAN波特率变化',
-      17: '串口波特率变化',
-    }
-    resultAlarm.add('报警值', alarmList[alarmValue] || alarmValue)
-  }
-  return resultAlarm
-}
-
-// String -> Promise
-async function decode(origindata) {
-  const data = origindata.replace(/\s/g, '').toLowerCase()
-  const result = new PropValues()
-  const cmdCode = data.substr(4, 2)
+// string -> string
+export function checkdata(data) {
+  const cmdCode = getCmdCode(data)
   if (!R.contains(cmdCode)(['17', '18', '28'])) {
-    return Promise.reject(Error('只解析 17,18,28 指令.'))
+    return '只解析 17,18,28 指令.'
   }
 
-  // 数据校验
+  // 奇偶和校验
   if (
     R.compose(
       padStart(2, '0'),
@@ -107,8 +56,15 @@ async function decode(origindata) {
     )(data.substr(4, data.length - 8)) !== data.substr(data.length - 4, 2)
   ) {
     // console.log(data);
-    return Promise.reject(Error('奇偶和校验失败, 请检查数据准确性.'))
+    return '奇偶和校验失败, 请检查数据准确性.'
   }
+  return ''
+}
+
+// String ->
+export function decode(data) {
+  const result = new PropValues()
+  const cmdCode = getCmdCode(data)
 
   if (cmdCode === '28') {
     result.add('28副参数信息', getCmd28Result(data))
@@ -198,4 +154,53 @@ async function decode(origindata) {
   return result
 }
 
-export { decode, PropValues }
+// String -> {*}
+function getCmd17Alarm(data) {
+  const cmd17Alarm = getState(34, data)
+  const resultAlarm = new PropValues()
+  if (cmd17Alarm === '10101010') {
+    // 10101010=>AA AA是特殊情况 无所谓发生,解除
+    resultAlarm.add('报警标志', '终端连接心跳包 (AA)')
+  } else {
+    // console.log(cmd17Alarm);
+    const alarmTag = cmd17Alarm.substr(0, 1) === '1' ? '报警发生' : '报警解除'
+    resultAlarm.add('报警标志', alarmTag)
+
+    const alarmValue = R.compose(toString(16), toInt(2), R.slice(1, 8))(cmd17Alarm)
+    const alarmList = {
+      1: 'GPS天线故障',
+      4: '曾自动锁车标志',
+      5: 'ACC/PLC上电',
+      d: 'SIM卡拔卡标志',
+      e: '开盖报警',
+      f: 'SIM卡更换报警',
+      10: '总线故障报警',
+      11: '主电源断电报警',
+      12: '主电源欠压报警',
+      13: '备用电池断电报警',
+      14: '备用电源欠压报警',
+      16: 'CAN波特率变化',
+      17: '串口波特率变化',
+    }
+    resultAlarm.add('报警值', alarmList[alarmValue] || alarmValue)
+  }
+  return resultAlarm
+}
+
+// String -> {*}
+function getCmd28Result(data) {
+  const cmd28content = data.substr(34, 36)
+  const cmd28Result = new PropValues()
+  cmd28Result.add('主电源电压', `${(skipnTakemToInt16(0, 4, cmd28content) / 10).toFixed(1)} V`)
+  cmd28Result.add('备用电池电压', `${(skipnTake2ToInt16(4, cmd28content) / 10).toFixed(1)} V`)
+  cmd28Result.add('终端内部温度', `${skipnTake2ToInt16(6, cmd28content) - 60} ℃`)
+  cmd28Result.add('主电休眠上报间隔', `${skipnTake2ToInt16(8, cmd28content)} h`)
+  cmd28Result.add('备电休眠上报间隔', `${skipnTake2ToInt16(10, cmd28content)} h`)
+  cmd28Result.add('ACC ON总累计时间', `${skipnTakemToInt16(12, 8, cmd28content)} min`)
+  cmd28Result.add('GPS终端总通电时间', `${skipnTakemToInt16(20, 8, cmd28content)} min`)
+  cmd28Result.add('开盖次数', skipnTake2ToInt16(28, cmd28content))
+  cmd28Result.add('拔GPS天线次数', skipnTake2ToInt16(30, cmd28content))
+  cmd28Result.add('拔SIM卡次数', skipnTake2ToInt16(32, cmd28content))
+  cmd28Result.add('GSM信号强度', skipnTake2ToInt16(34, cmd28content))
+  return cmd28Result
+}

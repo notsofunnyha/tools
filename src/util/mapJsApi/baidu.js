@@ -3,7 +3,7 @@ import { baidu as key } from './key.conf'
 export function position(lng, lat) {
   if (!key) return Promise.resolve('地理解析api密钥未配置, 请联系管理员')
 
-  return new Promise((resolve, reject) => {
+  const fecthPromise = new Promise((resolve, reject) => {
     const url = `http://api.map.baidu.com/reverse_geocoding/v3/?ak=${key}&output=json&coordtype=wgs84ll&location=${lat},${lng}`
     fetch(url)
       .then((response) => {
@@ -22,4 +22,11 @@ export function position(lng, lat) {
         reject(e)
       })
   })
+  return fecthPromise
+  // const timeoutPromise = new Promise((s, j) => {
+  //   setTimeout(() => {
+  //     j('超时')
+  //   }, 5000)
+  // })
+  // return Promise.race([fecthPromise, timeoutPromise])
 }

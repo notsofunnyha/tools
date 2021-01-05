@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Collapse, Input, Row, Col, message } from 'antd'
-import { decode } from './zl-gprs-13'
+import { decode, checkdata } from './zl-gprs-13'
 import css from './gprs13.scss'
 import Watch from '../../component/Watch'
 
@@ -35,16 +35,15 @@ export default function Gprs13() {
 
   const handleTextAreaChange = (e) => setinputValue(e.target.value)
 
-  const convert = async () => {
-    try {
-      const result = await decode(inputValue)
-      console.log(result)
-      setconvertResult(result)
-      message.success('解析成功', 1)
-    } catch (e) {
-      console.error(e)
-      message.error(e.message)
-    }
+  const convert = () => {
+    setconvertResult([])
+    const data = inputValue.replace(/\s/g, '').toLowerCase()
+    const check = checkdata(data)
+    if (check) return message.warn(check, 2)
+    const result = decode(data)
+    console.log(result)
+    setconvertResult(result)
+    message.success('解析成功', 1)
   }
   console.log('update ui')
   return (
