@@ -2,6 +2,7 @@
 import * as R from 'ramda'
 import dayjs from 'dayjs'
 import { position } from '../../util/mapJsApi/baidu'
+import { tryN } from '../../util/tryN'
 
 // Number -> String -> Number
 const toInt = R.curry((radix, s) => parseInt(s, radix))
@@ -145,7 +146,7 @@ async function decode(origindata) {
     const lat = (num1 + (((num3 * 100 + num4) * 1.0) / 10000.0 + num2) / 60.0).toFixed(7).replace(/[0]+$/, '')
     resultPosition.add('经度', lng)
     resultPosition.add('纬度', lat)
-    resultPosition.add('详细地址', { type: 'watch', fn: () => position(lng, lat) })
+    resultPosition.add('详细地址', { type: 'watch', fn: () => tryN(1, position)(lng, lat) })
     result.add('位置信息', resultPosition)
 
     const states = new PropValues()

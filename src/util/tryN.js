@@ -1,4 +1,6 @@
-// number -> func -> func
+/**
+ * 对于网络请求这种可能失败的情况, 重试几次
+ */
 export const tryN = (n = 3, fn) => async (...rest) => {
   for (let i = 0; i < n; i++) {
     console.log('try', i + 1)

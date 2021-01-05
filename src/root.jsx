@@ -5,51 +5,23 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons'
 import { hot } from 'react-hot-loader/root'
 import './global.scss'
-
 import Routes from './routes'
+import { path as menus } from './menu'
 
 const { Content } = Layout
 const { SubMenu } = Menu
 
-const menus = [
-  {
-    name: 'Home',
-    path: '/',
-  },
-  {
-    name: 'gprs13',
-    path: '/gprs13',
-  },
-  {
-    name: 'serial-port',
-    path: '/serial-port',
-  },
-  {
-    name: 'About',
-    children: [
-      { name: 'About1', path: '/about1' },
-      {
-        name: 'About2',
-        children: [
-          { name: 'About2', path: '/about2' },
-          { name: 'About3', path: '/about3' },
-        ],
-      },
-    ],
-  },
-]
-
-class Sider extends React.Component {
-  handleClick(e) {
+function Sider() {
+  const handleClick = (e) => {
     // console.log('menu click ', e)
   }
 
-  subMenu(menus) {
+  const subMenu = (menus) => {
     // console.log(menus)
     return menus.map((menu) =>
       menu.children ? (
         <SubMenu key={menu.name} icon={<AppstoreOutlined />} title={menu.name}>
-          {this.subMenu(menu.children)}
+          {subMenu(menu.children)}
         </SubMenu>
       ) : (
         <Menu.Item key={menu.name} icon={<AppstoreOutlined />}>
@@ -59,24 +31,22 @@ class Sider extends React.Component {
     )
   }
 
-  render() {
-    return (
-      <Menu
-        onClick={this.handleClick}
-        mode="inline"
-        theme="dark"
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'fixed',
-          left: 0,
-          width: 256,
-        }}
-      >
-        {this.subMenu(menus)}
-      </Menu>
-    )
-  }
+  return (
+    <Menu
+      onClick={handleClick}
+      mode="inline"
+      theme="dark"
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        width: 256,
+      }}
+    >
+      {subMenu(menus)}
+    </Menu>
+  )
 }
 
 const Root = () => (

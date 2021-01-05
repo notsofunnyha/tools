@@ -1,6 +1,6 @@
 import { amap as key } from './key.conf'
 
-async function getPosition(lng, lat) {
+export function getPosition(lng, lat) {
   if (!key) return Promise.resolve('地理解析api密钥未配置, 请联系管理员')
 
   return new Promise((resolve, reject) => {
@@ -22,5 +22,3 @@ async function getPosition(lng, lat) {
       })
   })
 }
-
-export const position = getPosition

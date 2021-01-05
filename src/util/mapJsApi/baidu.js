@@ -1,7 +1,6 @@
 import { baidu as key } from './key.conf'
-import { tryN } from '../tryN'
 
-function getPosition(lng, lat) {
+export function position(lng, lat) {
   if (!key) return Promise.resolve('地理解析api密钥未配置, 请联系管理员')
 
   return new Promise((resolve, reject) => {
@@ -24,6 +23,3 @@ function getPosition(lng, lat) {
       })
   })
 }
-
-// export const position = getPosition
-export const position = tryN(3, getPosition)
