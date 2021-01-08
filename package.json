@@ -4,19 +4,21 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "dev": "cross-env START_HOT=1 port=7000 NODE_ENV=development webpack-dev-server --config webpack.config.babel.js",
+    "dev": "cross-env START_HOT=1 port=7000 NODE_ENV=development webpack-dev-server --config webpack.config.babel.dev.js",
     "electron": "cross-env START_HOT=1 NODE_ENV=development port=7000 electron .",
     "build": "electron-rebuild -f -p -t prod,dev,optional -v 9.1.0 -m ./",
-    "dist": "electron-builder",
-    "postinstall": "electron-builder install-app-deps",
-    "pack": "electron-packager ./ testapp --win --out ./outputs"
+    "build-prod": "electron-rebuild -f -p -t prod -v 9.1.0 -m ./",
+    "pack-win-exe": "electron-packager ./ app --win --x64 --out ./output",
+    "pack-win-indexjs": "webpack --progress --colors --config webpack.config.babel.prod.js",
+    "pack-win-clean-useless-file": "deno run --allow-read --allow-write pack-win-clean-useless-file.js",
+    "pack-win": "yarn pack-win-exe && yarn pack-win-indexjs && yarn pack-win-clean-useless-file"
   },
   "repository": "https://github.com/lovelyorg/tools",
   "keywords": [
     "Electron",
     "React"
   ],
-  "author": "GitHub",
+  "author": "https://github.com/lovelyorg",
   "license": "CC0-1.0",
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -25,6 +27,7 @@
     "@babel/plugin-transform-react-inline-elements": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
+    "@hot-loader/react-dom": "^16.13.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
@@ -33,10 +36,12 @@
     "css-loader": "^3.6.0",
     "electron": "^9.1.0",
     "electron-builder": "^22.9.1",
+    "electron-packager": "^15.2.0",
     "electron-rebuild": "^1.11.0",
     "eslint": "^7.14.0",
     "eslint-plugin-react": "^7.21.5",
     "node-sass": "^4.14.1",
+    "react-hot-loader": "^4.12.21",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
@@ -44,15 +49,12 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@hot-loader/react-dom": "^16.13.0",
     "antd": "^4.4.2",
     "connected-react-router": "^6.8.0",
     "dayjs": "^1.8.30",
-    "electron-packager": "^15.2.0",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.21",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",

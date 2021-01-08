@@ -3,7 +3,6 @@ import 'antd/dist/antd.css'
 import { Layout, Menu } from 'antd'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons'
-import { hot } from 'react-hot-loader/root'
 import './global.scss'
 import Routes from './routes'
 import { path as menus } from './menu'
@@ -64,4 +63,4 @@ const Root = () => (
   </Router>
 )
 
-export default hot(Root)
+export default Root

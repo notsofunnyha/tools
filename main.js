@@ -7,8 +7,8 @@ app.allowRendererProcessReuse = false
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1300,
-    height: 760,
+    width: 1100,
+    height: 700,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'),

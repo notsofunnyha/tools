@@ -2,4 +2,8 @@ node_modules
 
 dist
 
-outputs
+output
+
+build
+
+yarn-error.log

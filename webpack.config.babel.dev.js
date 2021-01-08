@@ -68,11 +68,7 @@ module.exports = {
       'react-dom': '@hot-loader/react-dom',
     },
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NamedModulesPlugin(), new webpack.NoEmitOnErrorsPlugin()],
   devServer: {
     port,
     publicPath,
