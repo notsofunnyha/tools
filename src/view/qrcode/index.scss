@@ -1,0 +1,12 @@
+.row {
+  padding: 10px 0;
+  .item {
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 0 10px;
+  }
+}
+
+.row + .row {
+  border-top: 1px solid #e1e3e5;
+}

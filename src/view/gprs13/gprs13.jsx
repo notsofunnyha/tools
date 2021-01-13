@@ -33,9 +33,12 @@ export default function Gprs13() {
   )
   const [convertResult, setconvertResult] = useState([])
 
-  const handleTextAreaChange = (e) => setinputValue(e.target.value)
+  const handleTextAreaChange = (e) => {
+    setinputValue(e.target.value)
+    convert(e.target.value)
+  }
 
-  const convert = () => {
+  const convert = (inputValue) => {
     setconvertResult([])
     const data = inputValue.replace(/\s/g, '').toLowerCase()
     const check = checkdata(data)
@@ -51,7 +54,7 @@ export default function Gprs13() {
       <TextArea onChange={handleTextAreaChange} value={inputValue} autoSize={{ minRows: 4, maxRows: 6 }} />
       <Row style={{ padding: '20px 0' }}>
         <Col span={24}>
-          <Button type="primary" onClick={convert} style={{ float: 'left', width: '100%' }}>
+          <Button type="primary" onClick={() => convert(inputValue)} style={{ float: 'left', width: '100%' }}>
             解析
           </Button>
         </Col>

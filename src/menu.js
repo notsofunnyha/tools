@@ -12,6 +12,10 @@ const menus = [
     path: 'serial-port/index',
   },
   {
+    name: 'QRCode二维码',
+    path: 'qrcode/index',
+  },
+  {
     name: 'About',
     path: 'about',
     children: [

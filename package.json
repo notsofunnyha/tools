@@ -52,6 +52,7 @@
     "antd": "^4.4.2",
     "connected-react-router": "^6.8.0",
     "dayjs": "^1.8.30",
+    "qrcode": "^1.4.4",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

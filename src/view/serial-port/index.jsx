@@ -146,7 +146,7 @@ export default function Serial() {
   }, [])
 
   useEffect(() => {
-    console.error('移除此effect')
+    console.log('加载此effect')
     if (port && port.isOpen) {
       port.close((e) => {
         if (e) message.error(e.message)

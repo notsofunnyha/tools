@@ -20,7 +20,7 @@ function createWindow() {
   mainWindow.loadURL(`file://${__dirname}/index.html`)
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  process.env.NODE_ENV == 'development' && mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
