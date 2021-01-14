@@ -1,7 +1,7 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import ErrorBoundary from './component/ErrorBoundary'
-import { route } from './menu'
+import { route, defaultRoute } from './menu'
 
 export default function Routes() {
   return (
@@ -16,6 +16,7 @@ export default function Routes() {
         )
         return <Route key={index} path={m.path} exact={true} component={component} />
       })}
+      <Redirect from="/" to={defaultRoute} />
     </Switch>
   )
 }

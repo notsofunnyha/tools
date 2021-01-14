@@ -51,7 +51,7 @@ const genarateRoute = (menus, result = []) => {
 
 const path = fullPath(menus)
 const route = genarateRoute(path)
-
+const defaultRoute = '/gprs13/gprs13'
 // console.log(menus, path, route)
 
-export { path, route }
+export { path, route, defaultRoute }

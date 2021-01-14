@@ -5,25 +5,25 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons'
 import './global.scss'
 import Routes from './routes'
-import { path as menus } from './menu'
+import { path as menus, defaultRoute } from './menu'
 
 const { Content } = Layout
 const { SubMenu } = Menu
 
 function Sider() {
   const handleClick = (e) => {
-    // console.log('menu click ', e)
+    console.log('menu click ', e)
   }
 
   const subMenu = (menus) => {
     // console.log(menus)
     return menus.map((menu) =>
       menu.children ? (
-        <SubMenu key={menu.name} icon={<AppstoreOutlined />} title={menu.name}>
+        <SubMenu key={menu.path} icon={<AppstoreOutlined />} title={menu.name}>
           {subMenu(menu.children)}
         </SubMenu>
       ) : (
-        <Menu.Item key={menu.name} icon={<AppstoreOutlined />}>
+        <Menu.Item key={menu.path} icon={<AppstoreOutlined />}>
           <Link to={menu.path}>{menu.name}</Link>
         </Menu.Item>
       ),
@@ -33,6 +33,7 @@ function Sider() {
   return (
     <Menu
       onClick={handleClick}
+      defaultSelectedKeys={defaultRoute}
       mode="inline"
       theme="dark"
       style={{
