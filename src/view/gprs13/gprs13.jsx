@@ -22,7 +22,7 @@ function Item({ prop, value, list }) {
     <div className={css.line}>
       {prop}
       {' : '}
-      {typeof value == 'object' && value.type == 'watch' ? <Watch fn={value.fn} init="解析中" err="解析失败"></Watch> : value}
+      {typeof value == 'object' && value.type == 'watch' ? <Watch fn={value.fn}></Watch> : value}
     </div>
   )
 }

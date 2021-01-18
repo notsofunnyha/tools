@@ -1,4 +1,4 @@
 semi = false # 分号
 singleQuote = true # 单引号
 trailingComma = "all" # 尾逗号
-printWidth = 130
+printWidth = 150

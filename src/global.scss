@@ -1,6 +1,19 @@
 :global {
-  .ant-row > div {
-    // margin-top: 8px;
-    // margin-bottom: 8px;
+  // .ant-row > div {
+  //   margin-top: 8px;
+  //   margin-bottom: 8px;
+  // }
+
+  .info {
+    color: #1890ff;
+  }
+  .ok {
+    color: #52c41a;
+  }
+  .warn {
+    color: #faad14;
+  }
+  .fail {
+    color: #ff4d4f;
   }
 }
