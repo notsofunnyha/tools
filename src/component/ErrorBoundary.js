@@ -12,7 +12,7 @@ import React from 'react'
  * 但在未来的版本中将不推荐这样做。 可以使用静态 getDerivedStateFromError() 来处理降级渲染。
  */
 
-const key = '0fcbdaa9-c1e7-4287-b9fa-f840b806b8fb'
+const key = 'ErrorBoundary_tag'
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {

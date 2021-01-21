@@ -7,24 +7,27 @@ import Watch from '../../component/Watch'
 const { TextArea } = Input
 const { Panel } = Collapse
 
-function Item({ prop, value, list }) {
-  if (list)
-    return (
-      <Collapse defaultActiveKey={[prop]} className={css['content-container']}>
-        <Panel header={prop} key={prop}>
-          {list.map((m) => (
-            <Item key={m.prop} prop={m.prop} value={m.value} list={m.list} />
-          ))}
-        </Panel>
-      </Collapse>
-    )
-  return (
-    <div className={css.line}>
-      {prop}
-      {' : '}
-      {typeof value == 'object' && value.type == 'watch' ? <Watch fn={value.fn}></Watch> : value}
-    </div>
-  )
+function ObjectPanel({ data }) {
+  return Object.keys(data).map((m, i) => {
+    const key = m + i
+    if (typeof data[m] == 'object') {
+      if (data[m].type == 'watch')
+        return (
+          <div key={key} className={css.line}>
+            {`${m} : `}
+            <Watch fn={data[m].fn} />
+          </div>
+        )
+      return (
+        <Collapse defaultActiveKey={key} className={css['content-container']}>
+          <Panel header={m} key={key}>
+            <ObjectPanel data={data[m]} />
+          </Panel>
+        </Collapse>
+      )
+    }
+    return <div key={key} className={css.line}>{`${m} : ${data[m]}`}</div>
+  })
 }
 
 export default function Gprs13() {
@@ -40,28 +43,37 @@ export default function Gprs13() {
 
   const convert = (inputValue) => {
     setconvertResult([])
-    const data = inputValue.replace(/\s/g, '').toLowerCase()
-    const check = checkdata(data)
+    const check = checkdata(inputValue)
     if (check) return message.warn(check, 2)
-    const result = decode(data)
+    const result = decode(inputValue)
     console.log(result)
     setconvertResult(result)
     message.success('解析成功', 1)
   }
   console.log('update ui')
+
+  // 为什么用这种数据结构?
+  // 为了方便取值, 希望能用 data[prop] 的方式取到所有属性的值
+  // const test = {
+  //   t1: { a: 1, b: 2 },
+  //   t2: {
+  //     c: 3,
+  //     t3: { d: 4 },
+  //     t4: { t5: { e: 4 } },
+  //   },
+  // }
   return (
     <>
       <TextArea onChange={handleTextAreaChange} value={inputValue} autoSize={{ minRows: 4, maxRows: 6 }} />
       <Row style={{ padding: '20px 0' }}>
         <Col span={24}>
-          <Button type="primary" onClick={() => convert(inputValue)} style={{ float: 'left', width: '100%' }}>
+          <Button type="primary" onClick={() => convert(inputValue)} style={{ float: 'left' }}>
             解析
           </Button>
         </Col>
       </Row>
-      {convertResult.map((pv) => (
-        <Item key={pv.prop} prop={pv.prop} value={pv.value} list={pv.list} />
-      ))}
+      {/* {<ObjectPanel data={test} />} */}
+      {<ObjectPanel data={convertResult} />}
     </>
   )
 }

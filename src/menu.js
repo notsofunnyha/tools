@@ -5,7 +5,11 @@ const menus = [
   },
   {
     name: 'gprs13',
-    path: 'gprs13/gprs13',
+    path: 'gprs13',
+    children: [
+      { name: '单个', path: 'gprs13' },
+      { name: '批量', path: 'batch' },
+    ],
   },
   {
     name: 'serial-port',

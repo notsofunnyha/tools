@@ -1,0 +1,23 @@
+:global {
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    word-break: keep-all;
+    white-space: nowrap;
+  }
+
+  // .ant-table-wrapper {
+  //   max-height: calc(100% - 220px);
+  //   overflow: auto;
+  // }
+}
+
+.taskrunning {
+  max-height: calc(100% - 260px);
+  overflow: auto;
+  background-color: red;
+}
+
+.taskdone {
+  max-height: calc(100% - 220px);
+  overflow: auto;
+}

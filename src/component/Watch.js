@@ -17,7 +17,7 @@ import { Task } from '../support'
  * 2.基于第1点, 此组件的副作用不能添加任何参数, 但不添加参数会导致状态更新时副作用会再次执行, 这是多余的, 甚至错误的
  * 3.所以: 直接写一个组件无法做到, 需要包裹一个组件
  */
-export default function Watch({ fn, init = '加载中', errMsg }) {
+export default function Watch({ fn, init = '加载中', errMsg }) {console.log(fn)
   return <WatchContent key={+new Date() + Math.random().toFixed(3)} fn={fn} init={init} errMsg={errMsg} />
 }
 
