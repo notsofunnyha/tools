@@ -27,6 +27,17 @@
         scripts.push('./index.prod.js')
       }
       document.write(scripts.map((script) => `<script defer src="${script}"><\/script>`).join(''))
+
+      // 打印内存占用情况
+      // http://nodejs.cn/api/process.html#process_process_memoryusage
+      setInterval(() => {
+        let memory = process.memoryUsage()
+        let info = `内存占用(MB) 
+    rss=${(memory.rss / 1048576).toFixed(2)} 
+    heapTotal=${(memory.heapTotal / 1048576).toFixed(2)} 
+    heapUsed=${(memory.heapUsed / 1048576).toFixed(2)} `
+        document.title = info
+      }, 2000)
     </script>
   </body>
 </html>
