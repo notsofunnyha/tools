@@ -1,8 +1,8 @@
 const menus = [
-  {
-    name: 'Home',
-    path: 'home',
-  },
+  // {
+  //   name: 'Home',
+  //   path: 'home',
+  // },
   {
     name: 'gprs13',
     path: 'gprs13',
@@ -18,6 +18,10 @@ const menus = [
   {
     name: 'QRCode二维码',
     path: 'qrcode/index',
+  },
+  {
+    name: '随机数',
+    path: 'random/index',
   },
   {
     name: 'About',

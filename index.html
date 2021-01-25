@@ -17,7 +17,7 @@
     <div id="root"></div>
     <!-- You can also require other files to run in this process -->
     <script>
-      console.log(this, process.env.PORT)
+      console.log(this, process.env)
       const scripts = []
       if (process.env.START_HOT) {
         // Dynamically insert the bundled app script in the renderer process
@@ -30,14 +30,15 @@
 
       // 打印内存占用情况
       // http://nodejs.cn/api/process.html#process_process_memoryusage
-      setInterval(() => {
-        let memory = process.memoryUsage()
-        let info = `内存占用(MB) 
+      process.env.NODE_ENV == 'development' &&
+        setInterval(() => {
+          let memory = process.memoryUsage()
+          let info = `内存占用(MB) 
     rss=${(memory.rss / 1048576).toFixed(2)} 
     heapTotal=${(memory.heapTotal / 1048576).toFixed(2)} 
     heapUsed=${(memory.heapUsed / 1048576).toFixed(2)} `
-        document.title = info
-      }, 2000)
+          document.title = info
+        }, 2000)
     </script>
   </body>
 </html>
