@@ -1,7 +1,7 @@
 /* eslint-disable no-bitwise */
 import * as R from 'ramda'
 import dayjs from 'dayjs'
-import { position } from '../../util/mapJsApi/baidu'
+import { position } from '../../util/mapJsApi/index'
 
 // Number -> String -> Number
 const toInt = R.curry((radix, s) => parseInt(s, radix))
