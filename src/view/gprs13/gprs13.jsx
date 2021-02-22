@@ -9,7 +9,7 @@ const { Panel } = Collapse
 
 function ObjectPanel({ data }) {
   return Object.keys(data).map((m, i) => {
-    const key = m + i
+    const key = i
     if (typeof data[m] == 'object') {
       if (data[m].type == 'watch')
         return (
@@ -19,8 +19,8 @@ function ObjectPanel({ data }) {
           </div>
         )
       return (
-        <Collapse defaultActiveKey={key} className={css['content-container']}>
-          <Panel header={m} key={key}>
+        <Collapse key={key} defaultActiveKey="0" className={css['content-container']}>
+          <Panel header={m} key="0">
             <ObjectPanel data={data[m]} />
           </Panel>
         </Collapse>
