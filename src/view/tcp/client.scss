@@ -1,0 +1,14 @@
+:global {
+  .ant-divider-horizontal {
+    margin: 4px 0;
+  }
+
+  .ant-card + .ant-card {
+    margin-top: 10px;
+  }
+}
+
+.block {
+  height: 200px;
+  overflow: auto;
+}

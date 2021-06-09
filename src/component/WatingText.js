@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 /**
  * 仅仅是文字动画而已

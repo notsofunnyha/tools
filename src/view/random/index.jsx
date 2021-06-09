@@ -22,8 +22,9 @@ export default function f() {
       <Row style={{ padding: '20px 0' }}>
         <Col span={24}>
           uuidv4:<Divider></Divider>
-          {uuid4} <br />
-          {uuid4.replace(/-/g, '')}
+          <Row>{uuid4}</Row>
+          <Row>{uuid4.replace(/-/g, '')}</Row>
+          <Row>{uuid4.replace(/-/g, '').toUpperCase()}</Row>
         </Col>
       </Row>
       <Row style={{ padding: '20px 0' }}>

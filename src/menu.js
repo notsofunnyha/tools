@@ -24,6 +24,10 @@ const menus = [
     path: 'random/index',
   },
   {
+    name: 'TCP Client',
+    path: 'tcp/client',
+  },
+  {
     name: 'About',
     path: 'about',
     children: [

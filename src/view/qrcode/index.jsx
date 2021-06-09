@@ -3,7 +3,7 @@ import QRCode from 'qrcode'
 import { Input, message, Divider, List } from 'antd'
 
 const { TextArea } = Input
-const storageKey = 'QRCode_history'
+const storageKey = 'qrcode_history'
 
 export default function f() {
   const [inputValue, setinputValue] = useState('')

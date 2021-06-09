@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 
 /**注意
@@ -21,7 +22,7 @@ export default class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
-    console.log('getDerivedStateFromError')
+    console.log('getDerivedStateFromError', error)
     localStorage.setItem(key, true)
 
     // 更新 state 使下一次渲染能够显示降级后的 UI

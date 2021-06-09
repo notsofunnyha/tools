@@ -23,4 +23,10 @@ export class Container {
   ap(anotherContainer) {
     return anotherContainer.map(this.$value)
   }
+
+  ap2(other) {
+    return this.chain(function (f) {
+      return other.map(f)
+    })
+  }
 }
