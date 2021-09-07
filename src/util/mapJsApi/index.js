@@ -19,11 +19,12 @@ export function position(lng, lat) {
     } else
       fetchJson(url(lng, lat))
         .map(address)
-        .fork(reject, (e) => {
+        .fork(
+          reject,
           either(resolve, (m) => {
             resolve(m)
             setCacheObjLimit1000(storageKey, lnglat, m).unsafePerformIO()
-          })(e)
-        })
+          }),
+        )
   })
 }
