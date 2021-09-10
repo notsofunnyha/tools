@@ -17,19 +17,20 @@ import { Task } from '../support'
  * 2.基于第1点, 此组件的副作用不能添加任何参数, 但不添加参数会导致状态更新时副作用会再次执行, 这是多余的, 甚至错误的
  * 3.所以: 直接写一个组件无法做到, 需要包裹一个组件
  */
-export default function Watch({ fn, init = '加载中', errMsg }) {console.log(fn)
+export default function Watch({ fn, init = '加载中', errMsg }) {
+  console.log(fn)
   return <WatchContent key={+new Date() + Math.random().toFixed(3)} fn={fn} init={init} errMsg={errMsg} />
 }
 
 function WatchContent({ fn, init, errMsg }) {
-  const [resolve, setresolve] = useState('')
-  const [reject, setreject] = useState('')
+  const [resolve, setresolve] = useState(null)
+  const [reject, setreject] = useState(null)
   // console.log(fn)
   useEffect(() => {
     fn.fork((e) => setreject(errMsg || e), setresolve)
   }, [])
-  if (resolve) return resolve
-  if (reject) return <span className="fail">{reject}</span>
+  if (resolve != null) return resolve
+  if (reject != null) return <span className="fail">{reject}</span>
   return <WatingText text={init} />
 }
 

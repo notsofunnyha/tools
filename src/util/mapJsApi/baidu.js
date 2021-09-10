@@ -3,7 +3,7 @@ import { curry } from 'ramda'
 import { Left, Right } from '../../support'
 
 // string -> string -> string
-export const url = (lng, lat) => `http://api.map.baidu.com/reverse_geocoding/v3/?ak=${key}&output=json&coordtype=wgs84ll&location=${lat},${lng}`
+export const url = ({ lng, lat }) => `http://api.map.baidu.com/reverse_geocoding/v3/?ak=${key}&output=json&coordtype=wgs84ll&location=${lat},${lng}`
 
 // object -> Either string
 export const address = curry(({ status, result }) => {

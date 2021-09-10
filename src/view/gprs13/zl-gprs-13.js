@@ -1,7 +1,7 @@
 /* eslint-disable no-bitwise */
 import * as R from 'ramda'
 import dayjs from 'dayjs'
-import { position } from '../../util/mapJsApi/index'
+import { getPosition } from '../../util/mapJsApi/index'
 
 // Number -> String -> Number
 const toInt = R.curry((radix, s) => parseInt(s, radix))
@@ -89,7 +89,7 @@ export function decode(preData) {
     const lat = (num1 + (((num3 * 100 + num4) * 1.0) / 10000.0 + num2) / 60.0).toFixed(7).replace(/[0]+$/, '')
     resultPosition['经度'] = lng
     resultPosition['纬度'] = lat
-    resultPosition['详细地址'] = { type: 'watch', fn: position(lng, lat) }
+    resultPosition['详细地址'] = { type: 'watch', fn: getPosition({ lng, lat }) }
     result['位置信息'] = resultPosition
 
     const states = {}

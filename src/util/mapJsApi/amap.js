@@ -3,7 +3,7 @@ import { Left, Right } from '../../support/fetch'
 import { curry } from 'ramda'
 
 // string -> string -> string
-export const url = (lng, lat) => `https://restapi.amap.com/v3/geocode/regeo?key=${key}&location=${lng},${lat}`
+export const url = ({ lng, lat }) => `https://restapi.amap.com/v3/geocode/regeo?key=${key}&location=${lng},${lat}`
 
 // object -> Either string
 export const address = curry(({ regeocode }) => {
