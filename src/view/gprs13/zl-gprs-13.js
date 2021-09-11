@@ -1,7 +1,12 @@
 /* eslint-disable no-bitwise */
 import * as R from 'ramda'
+import { curry } from 'ramda'
 import dayjs from 'dayjs'
 import { getPosition } from '../../util/mapJsApi/index'
+
+const accuracy = curry((precision, n) => ((n * Math.pow(10, precision)) >> 0) / Math.pow(10, precision))
+// 经纬度: 4 位小数: 精度10米,  5 位小数: 精度1米
+const theAccuracy = accuracy(4)
 
 // Number -> String -> Number
 const toInt = R.curry((radix, s) => parseInt(s, radix))
@@ -89,7 +94,7 @@ export function decode(preData) {
     const lat = (num1 + (((num3 * 100 + num4) * 1.0) / 10000.0 + num2) / 60.0).toFixed(7).replace(/[0]+$/, '')
     resultPosition['经度'] = lng
     resultPosition['纬度'] = lat
-    resultPosition['详细地址'] = { type: 'watch', fn: getPosition({ lng, lat }) }
+    resultPosition['详细地址'] = { type: 'watch', fn: getPosition({ lng: theAccuracy(lng), lat: theAccuracy(lat) }) }
     result['位置信息'] = resultPosition
 
     const states = {}
