@@ -4,4 +4,5 @@ import { fetchJson } from '../../support/fetch'
 // import { url, address } from './amap'
 import { url, address } from './baidu'
 
+// {lng,lat} -> task string string
 export const getPosition = compose(chain(eitherToTask), map(address), fetchJson, url)
